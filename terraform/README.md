@@ -3,6 +3,7 @@ For Skill Factory study project (B10, PR. Advanced1: Terraform + Shell Scripting
 
 <br>
 
+
 ### Terraform Configuration
 
 ```bash
@@ -20,6 +21,9 @@ $ terraform apply -auto-approve
 $ terraform validate && terraform plan && terraform apply -auto-approve
 ..or
 $ terraform destroy -auto-approve && terraform validate && terraform plan && terraform apply -auto-approve
+..or
+$ terraform destroy -target=yandex_compute_instance.vm1 -auto-approve && terraform validate && terraform plan -target=yandex_compute_instance.vm1 && terraform apply -target=yandex_compute_instance.vm1 -auto-approve
+$ terraform destroy -target=yandex_compute_instance.vm2 -auto-approve && terraform validate && terraform plan -target=yandex_compute_instance.vm2 && terraform apply -target=yandex_compute_instance.vm2 -auto-approve
 
 #03 :: Destroy cloud resources if they are not needed
 $ terraform destroy -auto-approve

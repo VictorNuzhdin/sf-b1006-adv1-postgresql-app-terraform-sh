@@ -1,5 +1,6 @@
 # sf-b1006-pr-adv1-postgresql-app-terraform-sh
 For Skill Factory study project (B10, PR. Advanced1: Terraform + Shell Scripting)
+
 <br>
 
 ### Quick Info
@@ -70,8 +71,12 @@ $ terraform destroy -auto-approve && terraform validate && terraform plan && ter
         vm2_info = "u182 | 10.0.20.11 | 158.160.25.74"
 
 #00.4 :: Check site home pages of created cloud hosts with your preferred web browser
-http://158.160.8.114     ## Welcome to [vm1.dotspace.ru] (PostgreSQL: Server)
-http://158.160.25.74     ## Welcome to [vm2.dotspace.ru] (PostgreSQL: Client WebApp)
+#
+http://158.160.8.114    ## Welcome to [vm1.dotspace.ru] (PostgreSQL: Server)
+http://158.160.25.74    ## Welcome to [vm2.dotspace.ru] (PostgreSQL: Client WebApp)
+
+$ curl -s http://vm1.dotspace.ru | grep "<title>"    ## <title>Welcome | vm1.dotspace.ru</title>
+$ curl -s http://vm2.dotspace.ru | grep "<title>"    ## <title>Welcome | vm2.dotspace.ru</title>
 
 #00.5 :: Destroy cloud resources if they are not needed
 $ terraform destroy -auto-approve
@@ -112,9 +117,14 @@ $ cat /etc/nginx/sites-available/vm1.dotspace.ru
             }
         }
 
+#01.2 :: Checking VM2 website by domain name
+$ curl -s http://vm2.dotspace.ru | grep "<title>"    ## <title>Welcome | vm2.dotspace.ru</title>
+
+
+
 ##--VM2 :: PostgreSQL Client Host
 
-#01.1 :: Checking Nginx Service status and configuration
+#02.1 :: Checking Nginx Service status and configuration
 $ nginx -v
 
         nginx version: nginx/1.14.0 (Ubuntu)
@@ -147,12 +157,16 @@ $ cat /etc/nginx/sites-available/vm2.dotspace.ru
             }
         }
 
+#02.2 :: Checking VM1 website by domain name
+$ curl -s http://vm1.dotspace.ru | grep "<title>"    ## <title>Welcome | vm1.dotspace.ru</title>
+
 ```
 <br>
 
 ### Changelog (newest first)
 
 ```bash
+2023.11.26 :: Реализована работа с Сервисом FreeDNS (теперь к ВМ есть доступ по доменным именам)
 2023.11.25 :: Реализована базовая Terraform конфигурация которая создает x2 ВМ:
               1. VM1: Ubuntu 18.04 (Bionic Beaver), Nginx 1.14.0, простой вебсайт
               2. VM2: Ubuntu 18.04 (Bionic Beaver), Nginx 1.14.0, простой вебсайт
@@ -162,10 +176,18 @@ $ cat /etc/nginx/sites-available/vm2.dotspace.ru
 
 ### Screens
 
-01.1: VM1 Home Page <br>
+02.1: VM1 [vm1.dotspace.ru] Home Page <br>
+![screen](_screens/step02__vm1__homepage.png?raw=true)
+<br>
+
+02.2: VM2 [vm2.dotspace.ru] Home Page <br>
+![screen](_screens/step02__vm2__homepage.png?raw=true)
+<br>
+
+01.1: VM1 [158.160.8.114] Home Page <br>
 ![screen](_screens/step01__vm1__homepage.png?raw=true)
 <br>
 
-01.2: VM2 Home Page <br>
+01.2: VM2 [158.160.25.74] Home Page <br>
 ![screen](_screens/step01__vm2__homepage.png?raw=true)
 <br>

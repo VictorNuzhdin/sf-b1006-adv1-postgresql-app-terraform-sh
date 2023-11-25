@@ -15,6 +15,8 @@ echo "" >> $LOG_PATH
 echo '## Updating local apt packages database..' >> $LOG_PATH
 sudo apt update -y
 #sudo apt upgrade -y                             ## Needed interactive actions and rebooting
+sudo apt -o DPkg::Lock::Timeout=-1 update -y     ## FIX1: E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)
+#sudo killall apt apt-get                        ## FIX2
 echo "" >> $LOG_PATH
 
 #echo '## Installing Python 3' >> $LOG_PATH

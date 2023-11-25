@@ -22,6 +22,10 @@ sudo bash $SCRIPTS_PATH/step03-packages.sh
 chmod +x $SCRIPTS_PATH/step04-nginx.sh
 sudo bash $SCRIPTS_PATH/step04-nginx.sh
 #
+#..configuring FreeDNS Client
+chmod +x $SCRIPTS_PATH/step05-freedns.sh
+sudo bash $SCRIPTS_PATH/step05-freedns.sh
+#
 #..configuring Firewall (ufw)
 chmod +x $SCRIPTS_PATH/step66-firewall.sh
 sudo bash $SCRIPTS_PATH/step66-firewall.sh
