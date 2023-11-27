@@ -157,6 +157,10 @@ resource "yandex_compute_instance" "vm2" {
   platform_id = "standard-v2"
   zone        = local.access_zone
 
+  depends_on = [
+    "yandex_compute_instance.vm1",
+  ]
+
   resources {
     cores         = 2
     core_fraction = 5

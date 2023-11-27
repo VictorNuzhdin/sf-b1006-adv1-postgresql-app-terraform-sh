@@ -120,6 +120,14 @@ $ cat /etc/nginx/sites-available/vm1.dotspace.ru
 #01.2 :: Checking VM2 website by domain name
 $ curl -s http://vm2.dotspace.ru | grep "<title>"    ## <title>Welcome | vm2.dotspace.ru</title>
 
+#01.3 :: Getting local PostgreSQL Server version by SQL Query
+PG_SYSTEM_DB=postgres
+MY_PG_ADMIN=devops
+PGPASSWORD='devops@pg_pass'
+
+psql -t postgres://127.0.0.1:5432/$PG_SYSTEM_DB?sslmode=disable -U $MY_PG_ADMIN -c "SELECT version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}'
+
+        PostgreSQL 8.4.22
 
 
 ##--VM2 :: PostgreSQL Client Host
@@ -160,16 +168,28 @@ $ cat /etc/nginx/sites-available/vm2.dotspace.ru
 #02.2 :: Checking VM1 website by domain name
 $ curl -s http://vm1.dotspace.ru | grep "<title>"    ## <title>Welcome | vm1.dotspace.ru</title>
 
+#02.3 :: Getting remote PostgreSQL Server version by SQL Query
+PG_SERVER="vm1.dotspace.ru"
+PG_SYSTEM_DB=postgres
+MY_PG_ADMIN=devops
+PGPASSWORD='devops@pg_pass'
+
+psql -t postgres://$PG_SERVER:5432/$PG_SYSTEM_DB?sslmode=disable -U $MY_PG_ADMIN -c "SELECT version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}'
+
+        PostgreSQL 8.4.22
+
 ```
 <br>
 
 ### Changelog (newest first)
 
 ```bash
+2023.11.27 :: Произведена установка и настройка PostgreSQL Сервера на VM1 и Клиента на VM2:
+              - теперь с VM2 можно выполнять SQL-запросы к системной БД на VM1 от имени пользователя "devops" (см. примеры выше)
 2023.11.26 :: Реализована работа с Сервисом FreeDNS (теперь к ВМ есть доступ по доменным именам)
 2023.11.25 :: Реализована базовая Terraform конфигурация которая создает x2 ВМ:
-              1. VM1: Ubuntu 18.04 (Bionic Beaver), Nginx 1.14.0, простой вебсайт
-              2. VM2: Ubuntu 18.04 (Bionic Beaver), Nginx 1.14.0, простой вебсайт
+              - VM1: Ubuntu 18.04 (Bionic Beaver), Nginx 1.14.0, простой вебсайт
+              - VM2: Ubuntu 18.04 (Bionic Beaver), Nginx 1.14.0, простой вебсайт
 
 ```
 <br>

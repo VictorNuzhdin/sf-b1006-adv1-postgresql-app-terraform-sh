@@ -26,6 +26,10 @@ sudo bash $SCRIPTS_PATH/step04-nginx.sh
 chmod +x $SCRIPTS_PATH/step05-freedns.sh
 sudo bash $SCRIPTS_PATH/step05-freedns.sh
 #
+#..configuring PostgreSQL Server
+chmod +x $SCRIPTS_PATH/step06-pgsql-server.sh
+sudo bash $SCRIPTS_PATH/step06-pgsql-server.sh
+#
 #..configuring Firewall (ufw)
 chmod +x $SCRIPTS_PATH/step66-firewall.sh
 sudo bash $SCRIPTS_PATH/step66-firewall.sh

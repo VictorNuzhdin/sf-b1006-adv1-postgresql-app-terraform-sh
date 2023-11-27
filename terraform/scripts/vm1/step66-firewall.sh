@@ -32,6 +32,10 @@ echo '## Step02 - Allow incoming HTTP/S for Apache/Nginx web servers..' >> $LOG_
 sudo ufw allow 80
 #sudo ufw allow 443
 
+echo '## Step03 - Allow incoming PostgreSQL Clients..' >> $LOG_PATH
+sudo ufw allow 5432
+#sudo ufw allow 5432 comment 'Allow Incoming PostgreSQL Clients'
+
 
 
 echo '## Step66 - Enabling firewall..' >> $LOG_PATH
