@@ -1,0 +1,4 @@
+/* DESTROY WEBAPP ENVIRONMENT step2 */
+
+DROP DATABASE pydb;
+DROP USER pyuser;

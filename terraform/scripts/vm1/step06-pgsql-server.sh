@@ -5,10 +5,13 @@ SCRIPTS_PATH=/home/ubuntu/scripts
 CONFIGS_PATH=/home/ubuntu/scripts/configs/step06-pgsql-server
 LOG_PATH=$SCRIPTS_PATH/step06-pgsql-server.log
 #
-PG_SYSTEM_USER=postgres
-PG_SYSTEM_DB=postgres
-MY_PG_ADMIN=devops
+PG_SERVER_ADDR="127.0.0.1"
+PG_SERVER_PORT="5432"
+PG_SYSTEM_USER="postgres"
+PG_SYSTEM_DB="postgres"
+MY_PG_ADMIN="devops"
 MY_PG_ADMIN_PASS="'devops@pg_pass'"
+export PGPASSWORD=$MY_PG_ADMIN_PASS
 #
 echo $PG_SYSTEM_USER > ./tmpSystemUser
 echo $PG_SYSTEM_DB > ./tmpSystemDb
@@ -110,7 +113,7 @@ echo "--get version by $MY_PG_ADMIN" >> $LOG_PATH
 sudo -u $MY_PG_ADMIN psql -d $PG_SYSTEM_DB -c "select version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}'
 echo "" >> $LOG_PATH
 echo "--get version with sql-query by $MY_PG_ADMIN" >> $LOG_PATH
-PGPASSWORD=$MY_PG_ADMIN_PASS psql -t postgres://127.0.0.1:5432/$PG_SYSTEM_DB?sslmode=disable -U $MY_PG_ADMIN -c "SELECT version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}'
+psql -t postgres://$PG_SERVER_ADDR:$PG_SERVER_PORT/$PG_SYSTEM_DB?sslmode=disable -U $MY_PG_ADMIN -c "SELECT version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}' >> $LOG_PATH
 #PGPASSWORD=devops@pg_pass psql -t postgres://127.0.0.1:5432/postgres?sslmode=disable -U devops -c "SELECT version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}'
 echo "DONE" >> $LOG_PATH
 echo "" >> $LOG_PATH

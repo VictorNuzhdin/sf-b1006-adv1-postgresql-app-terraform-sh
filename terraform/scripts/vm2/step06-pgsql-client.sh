@@ -5,12 +5,12 @@ SCRIPTS_PATH=/home/ubuntu/scripts
 CONFIGS_PATH=/home/ubuntu/scripts/configs/step06-pgsql-client
 LOG_PATH=$SCRIPTS_PATH/step06-pgsql-client.log
 #
-SQLQUERY_DELAY_SEC=300
-PG_SERVER="vm1.dotspace.ru"
-PG_SYSTEM_DB=postgres
-MY_PG_ADMIN=devops
-MY_PG_ADMIN_PASS="'devops@pg_pass'"
-PGPASSWORD=$MY_PG_ADMIN_PASS
+PG_SERVER_ADDR="vm1.dotspace.ru"
+PG_SERVER_PORT="5432"
+PG_SYSTEM_DB="postgres"
+MY_PG_ADMIN="devops"
+MY_PG_ADMIN_PASS="devops@pg_pass"
+export PGPASSWORD=$MY_PG_ADMIN_PASS
 
 
 ##--STEP#06 :: Installing PostgreSQL Client
@@ -50,8 +50,7 @@ echo "" >> $LOG_PATH
 
 echo '## Step06.5 - Getting PostgreSQL Server version from remote host by sql-query..' >> $LOG_PATH
 echo "..waiting $SQLQUERY_DELAY_SEC seconds before execute query.." >> $LOG_PATH
-sleep $SQLQUERY_DELAY_SEC
-psql -t postgres://$PG_SERVER:5432/$PG_SYSTEM_DB?sslmode=disable -U $MY_PG_ADMIN -c "SELECT version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}' >> $LOG_PATH
+psql -t postgres://$PG_SERVER_ADDR:$PG_SERVER_PORT/$PG_SYSTEM_DB?sslmode=disable -U $MY_PG_ADMIN -c "SELECT version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}' >> $LOG_PATH
 #PGPASSWORD=devops@pg_pass psql -t postgres://vm1.dotspace.ru:5432/postgres?sslmode=disable -U devops -c "SELECT version()::varchar(100);" | grep PostgreSQL | awk '{print $1" "$2}'
 echo "DONE" >> $LOG_PATH
 echo "" >> $LOG_PATH

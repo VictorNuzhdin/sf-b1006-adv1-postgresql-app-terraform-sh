@@ -157,8 +157,10 @@ resource "yandex_compute_instance" "vm2" {
   platform_id = "standard-v2"
   zone        = local.access_zone
 
+  ##..vm2 instance will be created after vm1 is created
+  ##  *warnining: "yandex_compute_instance.vm1" :: Quoted references are deprecated :: references are expected literally
   depends_on = [
-    "yandex_compute_instance.vm1",
+    yandex_compute_instance.vm1,
   ]
 
   resources {

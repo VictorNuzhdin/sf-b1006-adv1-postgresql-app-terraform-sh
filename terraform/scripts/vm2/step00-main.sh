@@ -30,6 +30,10 @@ sudo bash $SCRIPTS_PATH/step05-freedns.sh
 chmod +x $SCRIPTS_PATH/step06-pgsql-client.sh
 sudo bash $SCRIPTS_PATH/step06-pgsql-client.sh
 #
+#..configuring WebApp Runtime Environment & Running test script..
+chmod +x $SCRIPTS_PATH/step07-webapp-deploy-env.sh
+sudo bash $SCRIPTS_PATH/step07-webapp-deploy-env.sh
+#
 #..configuring Firewall (ufw)
 chmod +x $SCRIPTS_PATH/step66-firewall.sh
 sudo bash $SCRIPTS_PATH/step66-firewall.sh

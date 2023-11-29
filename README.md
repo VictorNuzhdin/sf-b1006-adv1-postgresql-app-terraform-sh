@@ -64,6 +64,9 @@ $ terraform apply -auto-approve
 $ terraform validate && terraform plan && terraform apply -auto-approve
 ..or
 $ terraform destroy -auto-approve && terraform validate && terraform plan && terraform apply -auto-approve
+..or
+$ terraform destroy -target=yandex_compute_instance.vm1 -auto-approve && terraform validate && terraform plan -target=yandex_compute_instance.vm1 && terraform apply -target=yandex_compute_instance.vm1 -auto-approve
+$ terraform destroy -target=yandex_compute_instance.vm2 -auto-approve && terraform validate && terraform plan -target=yandex_compute_instance.vm2 && terraform apply -target=yandex_compute_instance.vm2 -auto-approve
 
         Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
         Outputs:
@@ -178,12 +181,70 @@ psql -t postgres://$PG_SERVER:5432/$PG_SYSTEM_DB?sslmode=disable -U $MY_PG_ADMIN
 
         PostgreSQL 8.4.22
 
+#03.1 :: Selecting localhost data from "pydb" database and "animals" table on VM1
+#        *see: ./terraform/scripts/vm2/step07-webapp-deploy-env.sh
+#
+$ ssh devops@vm1.dotspace.ru
+$ sudo su ubuntu
+$ cd ~/scripts
+$ ./step07-webapp-deploy-env.sh
+$ sudo cat ./step07-webapp-deploy-env_query.log
+
+        CREATE ROLE
+        CREATE DATABASE
+        GRANT
+        CREATE TABLE
+        INSERT 0 9
+
+        --Selecting data from database..
+
+        dog    | spike
+        dog    | skooby
+        dog    | sandra
+        cat    | luna
+        cat    | sugar
+        cat    | tom
+        cat    | watson
+        parrot | jake
+        parrot | mary
+
+#03.2 :: Selecting remote host data from "pydb" database and "animals" table on VM2
+#        *see: ./terraform/scripts/vm2/step07-webapp-deploy-env.sh
+#
+$ ssh devops@vm2.dotspace.ru
+$ sudo su ubuntu
+$ cd ~/scripts
+$ ./step07-webapp-deploy-env.sh
+$ sudo cat ./step07-webapp-deploy-test_query.log
+
+        --Selecting data from remote db server [vm1.dotspace.ru]..
+
+        dog    | spike
+        dog    | skooby
+        dog    | sandra
+        cat    | luna
+        cat    | sugar
+        cat    | tom
+        cat    | watson
+        parrot | jake
+        parrot | mary
+
 ```
 <br>
 
 ### Changelog (newest first)
 
 ```bash
+2023.11.29 :: Разработаны шелл-скрипты автонастройки, которые создают необходимые данные в СУБД на хостах VM1 и VM2 и выполняют тесты:
+              1. на VM1
+                 - в СУБД создан пользователь "pyuser" с паролем "pyuser@pg_pass"
+                 - создана база данных "pydb" и таблица "animals" в которую добавлены тестовые данные с полями "name", "class", "gender"
+                 - пользователю "pyuser" предоставлены полные права для работы с базой данных "pydb"
+                 - в PostgreSQL конфигурацию "pg_hba.conf" добавлено правило доступа разрешающее пользователя "pyuser" подключение к базе "pydb"
+                 - выполнен тестовый sql-запрос выборки всех данных из таблицы "animals" от имени пользователя "pyuser"
+              2. на VM2
+                 - выполнен тестовый sql-запрос к серверу "VM1" выборки всех данных из таблицы "animals" от имени пользователя "pyuser"
+
 2023.11.27 :: Произведена установка и настройка PostgreSQL Сервера на VM1 и Клиента на VM2:
               - теперь с VM2 можно выполнять SQL-запросы к системной БД на VM1 от имени пользователя "devops" (см. примеры выше)
 2023.11.26 :: Реализована работа с Сервисом FreeDNS (теперь к ВМ есть доступ по доменным именам)
@@ -195,6 +256,14 @@ psql -t postgres://$PG_SERVER:5432/$PG_SYSTEM_DB?sslmode=disable -U $MY_PG_ADMIN
 <br>
 
 ### Screens
+
+03.1: VM1 [vm1.dotspace.ru] SQL-query to localhost DB <br>
+![screen](_screens/step07__vm1__query.png?raw=true)
+<br>
+
+03.2: VM2 [vm1.dotspace.ru] SQL-query to remote host "VM1" DB <br>
+![screen](_screens/step07__vm2__query.png?raw=true)
+<br>
 
 02.1: VM1 [vm1.dotspace.ru] Home Page <br>
 ![screen](_screens/step02__vm1__homepage.png?raw=true)

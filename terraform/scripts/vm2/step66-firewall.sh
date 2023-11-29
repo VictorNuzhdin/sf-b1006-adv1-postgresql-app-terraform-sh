@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SCRIPTS_PATH=/home/ubuntu/scripts
-LOG_PATH=$SCRIPTS_PATH/configure_66-firewall.log
+LOG_PATH=$SCRIPTS_PATH/step66-firewall.log
 
 
 
